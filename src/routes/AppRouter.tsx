@@ -6,34 +6,40 @@ import {
   Routes,
   useLocation
 } from 'react-router-dom';
-
-// use React.lazy to apply code splitting
-const Home = React.lazy(() => import('@containers/Home'));
-const NotFound = React.lazy(() => import('@containers/ErrorPage/NotFound'));
-
-interface IAppRoute {
+import ProtectedRoutes from './ProtectedRoutes';
+import PublicRoutes from './PublicRoutes';
+export interface IAppRoute {
   paths: string[],
   component: ReactElement,
 }
 
-export const routes: IAppRoute[] = [
-  {
-    paths: ['/', '/home'],
-    component: <Home />
-  },
-  {
-    paths: ['/not-found'],
-    component: <NotFound />
-  },
-];
+const AuthChecker: React.FC = () => {
+  const location = useLocation();
+  const isLogin = false;
+  // TODO implement function check login here and define protected + public routes
+  if (isLogin) {
+    return (
+      <>
+        <ProtectedRoutes />
+      </>
+    );
+  }
+  return (
+    <>
+      <PublicRoutes />
+      {/* <Navigate to="/login" state={{ from: location }} replace /> */}
+    </>
+  );
+};
 
 const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {routes.map((route) => route.paths
-          .map((path) => <Route path={path} key={path} element={route.component} />))}
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path='*'
+          element={ <AuthChecker />}
+        />
       </Routes>
     </BrowserRouter>
   )

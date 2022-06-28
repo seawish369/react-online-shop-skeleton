@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NotFound: React.FC = () => {
+const NotFoundPage: React.FC = () => {
   return (
     <div>
       Not Found Page
@@ -8,4 +8,4 @@ const NotFound: React.FC = () => {
   );
 }
 
-export default NotFound;
+export default NotFoundPage;
